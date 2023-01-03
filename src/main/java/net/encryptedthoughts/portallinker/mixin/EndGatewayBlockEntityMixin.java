@@ -15,7 +15,7 @@ public class EndGatewayBlockEntityMixin {
     private static RegistryKey<World> redirectEndCheck(World world)
     {
         var info = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
-        if (info.Type.equals("minecraft:the_end"))
+        if (info != null && info.Type.equals("minecraft:the_end"))
             return World.END;
         return world.getRegistryKey();
     }

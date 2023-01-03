@@ -63,13 +63,15 @@ public abstract class EntityMixin {
     @ModifyVariable(method = "tickPortal", at = @At("STORE"), ordinal = 0)
     public ServerWorld actualDestinationKey(ServerWorld destination) {
         var currentInfo = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
-
-        var server = destination.getServer();
-        var key = WorldHelper.getWorldRegistryKeyByName(server, currentInfo.NetherPortalDestinationDimension);
-        if (key != null && currentInfo.IsNetherPortalEnabled)
-            return server.getWorld(key);
-        else
-            return null;
+        if (currentInfo != null) {
+            var server = destination.getServer();
+            var key = WorldHelper.getWorldRegistryKeyByName(server, currentInfo.NetherPortalDestinationDimension);
+            if (key != null && currentInfo.IsNetherPortalEnabled)
+                return server.getWorld(key);
+            else
+                return null;
+        }
+        return destination;
     }
 
     @Inject(method = "getTeleportTarget", at = @At("HEAD"), cancellable = true)
@@ -83,7 +85,8 @@ public abstract class EntityMixin {
     public void moveToWorldOverride(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
         var entity = (Entity) (Object) this;
         var currentInfo = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
-        if (world instanceof ServerWorld &&
+        if (currentInfo != null &&
+                world instanceof ServerWorld &&
                 !entity.isRemoved()) {
 
             var dimensionTargetType = currentInfo.NetherPortalDestinationDimension;
@@ -92,6 +95,7 @@ public abstract class EntityMixin {
 
             var actualDestination = WorldHelper.getWorldByName(world.getServer(), dimensionTargetType);
             var destinationInfo = WorldHelper.getDimensionInfo(actualDestination.getRegistryKey().getValue().toString());
+            if (destinationInfo == null) cir.setReturnValue(null);
 
             world.getProfiler().push("changeDimension");
             entity.detach();
@@ -131,66 +135,69 @@ public abstract class EntityMixin {
         var destinationInfo = WorldHelper.getDimensionInfo(destination.getRegistryKey().getValue().toString());
         var currentInfo = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
 
-        boolean fromEndToOverworld = currentInfo.Type.equals("minecraft:the_end") && destinationInfo.Type.equals("minecraft:overworld");
-        boolean toEnd = destinationInfo.Type.equals("minecraft:the_end");
-        if (!fromEndToOverworld && !toEnd) {
-            boolean toNether = destinationInfo.Type.equals("minecraft:the_nether");
-            if (!currentInfo.Type.equals("minecraft:the_nether") && !toNether)
-                return null;
-            else {
-                var worldBorder = destination.getWorldBorder();
-                var scaleFactor = DimensionType.getCoordinateScaleFactor(
-                        world.getDimension(),
-                        destination.getDimension());
-                var portalPosition = worldBorder.clamp(
-                        getX() * scaleFactor,
-                        getY(),
-                        getZ() * scaleFactor);
-                return getPortalRect(destination, portalPosition, toNether, worldBorder).map((rect) -> {
-                    var blockState = world.getBlockState(lastNetherPortalPosition);
-                    Direction.Axis axis;
-                    Vec3d vec3d;
-                    if (blockState.contains(Properties.HORIZONTAL_AXIS)) {
-                        axis = blockState.get(Properties.HORIZONTAL_AXIS);
-                        BlockLocating.Rectangle rectangle = BlockLocating.getLargestRectangle(
-                                lastNetherPortalPosition,
+        if (destinationInfo != null && currentInfo != null) {
+            boolean fromEndToOverworld = currentInfo.Type.equals("minecraft:the_end") && destinationInfo.Type.equals("minecraft:overworld");
+            boolean toEnd = destinationInfo.Type.equals("minecraft:the_end");
+            if (!fromEndToOverworld && !toEnd) {
+                boolean toNether = destinationInfo.Type.equals("minecraft:the_nether");
+                if (!currentInfo.Type.equals("minecraft:the_nether") && !toNether)
+                    return null;
+                else {
+                    var worldBorder = destination.getWorldBorder();
+                    var scaleFactor = DimensionType.getCoordinateScaleFactor(
+                            world.getDimension(),
+                            destination.getDimension());
+                    var portalPosition = worldBorder.clamp(
+                            getX() * scaleFactor,
+                            getY(),
+                            getZ() * scaleFactor);
+                    return getPortalRect(destination, portalPosition, toNether, worldBorder).map((rect) -> {
+                        var blockState = world.getBlockState(lastNetherPortalPosition);
+                        Direction.Axis axis;
+                        Vec3d vec3d;
+                        if (blockState.contains(Properties.HORIZONTAL_AXIS)) {
+                            axis = blockState.get(Properties.HORIZONTAL_AXIS);
+                            BlockLocating.Rectangle rectangle = BlockLocating.getLargestRectangle(
+                                    lastNetherPortalPosition,
+                                    axis,
+                                    21,
+                                    Direction.Axis.Y,
+                                    21,
+                                    (pos) -> world.getBlockState(pos) == blockState);
+                            vec3d = positionInPortal(axis, rectangle);
+                        } else {
+                            axis = Direction.Axis.X;
+                            vec3d = new Vec3d(0.5, 0.0, 0.0);
+                        }
+
+                        var entity = (Entity) (Object) this;
+                        return NetherPortal.getNetherTeleportTarget(
+                                destination,
+                                rect,
                                 axis,
-                                21,
-                                Direction.Axis.Y,
-                                21,
-                                (pos) -> world.getBlockState(pos) == blockState);
-                        vec3d = positionInPortal(axis, rectangle);
-                    } else {
-                        axis = Direction.Axis.X;
-                        vec3d = new Vec3d(0.5, 0.0, 0.0);
-                    }
+                                vec3d,
+                                entity,
+                                getVelocity(),
+                                getYaw(),
+                                getPitch());
+                    }).orElse(null);
+                }
+            } else {
+                BlockPos blockPos;
+                if (toEnd) blockPos = ServerWorld.END_SPAWN_POS;
+                else
+                    blockPos = destination.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, destination.getSpawnPos());
 
-                    var entity = (Entity) (Object) this;
-                    return NetherPortal.getNetherTeleportTarget(
-                            destination,
-                            rect,
-                            axis,
-                            vec3d,
-                            entity,
-                            getVelocity(),
-                            getYaw(),
-                            getPitch());
-                }).orElse(null);
+                return new TeleportTarget(
+                        new Vec3d(
+                                (double) blockPos.getX() + 0.5,
+                                blockPos.getY(),
+                                (double) blockPos.getZ() + 0.5),
+                        getVelocity(),
+                        getYaw(),
+                        getPitch());
             }
-        } else {
-            BlockPos blockPos;
-            if (toEnd) blockPos = ServerWorld.END_SPAWN_POS;
-            else
-                blockPos = destination.getTopPosition(net.minecraft.world.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, destination.getSpawnPos());
-
-            return new TeleportTarget(
-                    new Vec3d(
-                            (double) blockPos.getX() + 0.5,
-                            blockPos.getY(),
-                            (double) blockPos.getZ() + 0.5),
-                    getVelocity(),
-                    getYaw(),
-                    getPitch());
         }
+        return null;
     }
 }

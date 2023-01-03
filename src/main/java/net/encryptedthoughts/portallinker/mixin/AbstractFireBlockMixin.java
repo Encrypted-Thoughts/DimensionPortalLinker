@@ -14,6 +14,7 @@ public class AbstractFireBlockMixin {
     private static void isOverworldOrNether(World world, CallbackInfoReturnable<Boolean> cir) {
         var worldName = world.getRegistryKey().getValue().toString();
         var dimensionInfo = WorldHelper.getDimensionInfo(worldName);
-        cir.setReturnValue(dimensionInfo.IsNetherPortalEnabled);
+        if (dimensionInfo != null)
+            cir.setReturnValue(dimensionInfo.IsNetherPortalEnabled);
     }
 }

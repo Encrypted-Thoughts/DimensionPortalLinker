@@ -46,7 +46,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         var entity = (ServerPlayerEntity) (Object) this;
         var currentInfo = WorldHelper.getDimensionInfo(entity.world.getRegistryKey().getValue().toString());
 
-        if (world instanceof ServerWorld) {
+        if (currentInfo != null && world instanceof ServerWorld) {
 
             var dimensionTargetType = currentInfo.NetherPortalDestinationDimension;
             if (currentInfo.Type.equals("minecraft:the_end") || destination.getDimensionKey().getValue().toString().equals("minecraft:the_end"))
@@ -54,6 +54,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
             var actualDestination = WorldHelper.getWorldByName(world.getServer(), dimensionTargetType);
             var destinationInfo = WorldHelper.getDimensionInfo(actualDestination.getRegistryKey().getValue().toString());
+            if (destinationInfo == null) cir.setReturnValue(null);
 
             inTeleportationState = true;
             var serverWorld = (ServerWorld) getWorld();
@@ -122,11 +123,14 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     private TeleportTarget getDimensionTeleportTarget(ServerWorld destination) {
         var currentInfo = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
-        var teleportTarget = super.getTeleportTarget(destination);
-        if (teleportTarget != null && destination.getRegistryKey().getValue().toString().equals(currentInfo.EndPortalDestinationDimension)) {
-            var vec3d = teleportTarget.position.add(0.0, -1.0, 0.0);
-            return new TeleportTarget(vec3d, Vec3d.ZERO, 90.0F, 0.0F);
-        } else
-            return teleportTarget;
+        if (currentInfo != null) {
+            var teleportTarget = super.getTeleportTarget(destination);
+            if (teleportTarget != null && destination.getRegistryKey().getValue().toString().equals(currentInfo.EndPortalDestinationDimension)) {
+                var vec3d = teleportTarget.position.add(0.0, -1.0, 0.0);
+                return new TeleportTarget(vec3d, Vec3d.ZERO, 90.0F, 0.0F);
+            } else
+                return teleportTarget;
+        }
+        return null;
     }
 }

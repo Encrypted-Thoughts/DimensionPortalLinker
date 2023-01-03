@@ -15,9 +15,9 @@ public class EndPortalBlockMixin {
     public RegistryKey<World> redirectEndCheck(World world)
     {
         var info = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
-        if (info.Type.equals("minecraft:the_end"))
+        if (info != null && info.Type.equals("minecraft:the_end"))
             return World.END;
-        else if (info.Type.equals("minecraft:overworld"))
+        else if (info != null && info.Type.equals("minecraft:overworld"))
             return World.OVERWORLD;
         return world.getRegistryKey();
     }

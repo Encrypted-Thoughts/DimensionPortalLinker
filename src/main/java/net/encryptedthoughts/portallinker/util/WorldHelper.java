@@ -32,10 +32,6 @@ public class WorldHelper {
                 return info;
         }
 
-        var info = new DimensionInfo();
-        info.Dimension = worldName;
-        info.IsNetherPortalEnabled = false;
-        info.IsEndPortalEnabled = false;
-        return info;
+        return null;
     }
 }
