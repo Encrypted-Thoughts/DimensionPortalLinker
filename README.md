@@ -1,9 +1,4 @@
-# Fabric Example Mod
+# Dimension Portal Linker
 
-## Setup
-
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+A mod made to make nether and end portals link together correctly in custom dimensions instead of just not working.
+Mostly made to enable using custom dimensions with a bingo mod I made and not so much for general use.
