@@ -91,7 +91,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
                     if (currentInfo.Type.equals("minecraft:overworld") && destinationInfo.Type.equals("minecraft:the_nether"))
                         enteredNetherPos = getPos();
                     else if (destinationInfo.Type.equals("minecraft:the_end"))
-                        createEndSpawnPlatform(actualDestination, new BlockPos(teleportTarget.position));
+                        createEndSpawnPlatform(actualDestination, BlockPos.ofFloored(teleportTarget.position));
 
                     serverWorld.getProfiler().pop();
                     serverWorld.getProfiler().push("placing");
