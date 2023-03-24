@@ -8,7 +8,6 @@
   "server": [
     "EntityMixin",
     "AbstractFireBlockMixin",
-    "ServerPlayerEntityMixin",
     "EndPortalBlockMixin",
     "EndGatewayBlockEntityMixin"
   ],
