@@ -1,5 +1,9 @@
 # Dimension Portal Linker
 
+![License](https://img.shields.io/github/license/Encrypted-Thoughts/DimensionPortalLinker)
+![Version](https://img.shields.io/github/v/tag/Encrypted-Thoughts/DimensionPortalLinker)
+![Downloads](https://img.shields.io/github/downloads/Encrypted-Thoughts/DimensionPortalLinker/total)
+
 By default nether and end portals only work in the regular overworld, nether, and end. 
 This mod adds the ability to enable them to work in custom dimensions by mapping which portal should go to which dimension via a config file.
 
