@@ -39,8 +39,7 @@ Example config for my Bingo server (portal_linker.json):
       "IsEndPortalEnabled": true,
       "EndPortalDestinationDimension": "minecraft:overworld"
     },
-	
-	{
+    {
       "Dimension": "bingo:duplicate_overworld",
       "Type": "minecraft:overworld",
       "IsNetherPortalEnabled": true,
