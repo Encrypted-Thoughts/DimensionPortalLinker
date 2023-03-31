@@ -87,7 +87,6 @@ Example config for my Bingo server (portal_linker.json):
       "IsEndPortalEnabled": true,
       "EndPortalDestinationDimension": "bingo:tiny_biomes_overworld"
     },
-	
     {
       "Dimension": "dream:creative_superflat",
       "Type": "minecraft:overworld",
