@@ -29,7 +29,7 @@ Example config for my Bingo server (portal_linker.json):
       "IsEndPortalEnabled": true,
       "EndPortalDestinationDimension": "minecraft:the_end"
     },
-	    {
+    {
       "Dimension": "minecraft:the_nether",
       "Type": "minecraft:the_nether",
       "IsNetherPortalEnabled": true,
