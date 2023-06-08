@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
-    @Shadow public World world;
+    @Shadow private World world;
     @Shadow protected BlockPos lastNetherPortalPosition;
 
     @Shadow public abstract Entity moveToWorld(ServerWorld destination);
