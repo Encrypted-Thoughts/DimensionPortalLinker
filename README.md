@@ -11,7 +11,7 @@ Mostly made to be used in concert with [my bingo mod](https://github.com/Encrypt
 
 Each defined dimension has 6 potentials properties:
 - Dimension - the actual name of the dimensions.
-- Type - The kind of dimension that it is. Default avaialable types that come with minecraft are minecraft:overworld, minecraft:overworld_caves, minecraft:the_nether, minecraft:the_end
+- Type - The kind of dimension that it is. Default available types that come with minecraft are minecraft:overworld, minecraft:overworld_caves, minecraft:the_nether, minecraft:the_end
 - IsNetherPortalEnabled - Set whether nether portals should be lightable and function in this dimension.
 - NetherPortalDestinationDimension - If nether portals are enabled set the name of the dimension it should take you to.
 - IsEndPortalEnabled - Set whether end portals should function in this dimension.
