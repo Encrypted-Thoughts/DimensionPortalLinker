@@ -17,6 +17,8 @@ Each defined dimension has 6 potentials properties:
 - IsEndPortalEnabled - Set whether end portals should function in this dimension.
 - EndportalDestinationDimension - If end portals are enabled set the name of the dimension it should take you to.
 
+> Currently the dragon fight doesn't work in custom end dimensions so you'll need to manually place a portal to return back to the overworld as it won't spawn naturally.
+
 Example config for my Bingo server (portal_linker.json):
 ```json
 {
