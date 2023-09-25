@@ -16,6 +16,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.dimension.NetherPortal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -47,11 +48,13 @@ public abstract class EntityMixin {
         return moveToWorld(destination);
     }
 
+    @Unique
     private Entity moveToWorldAlternative(Entity entity, ServerWorld destination, boolean toNether) {
         var teleportTarget = getTeleportTargetAlternative(destination, toNether);
         return FabricDimensions.teleport(entity, destination, teleportTarget);
     }
 
+    @Unique
     private TeleportTarget getTeleportTargetAlternative(ServerWorld destination, boolean toNether) {
         var worldBorder = destination.getWorldBorder();
         var d = DimensionType.getCoordinateScaleFactor(world.getDimension(), destination.getDimension());

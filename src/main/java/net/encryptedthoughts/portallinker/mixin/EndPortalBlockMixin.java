@@ -10,6 +10,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -43,6 +44,7 @@ public class EndPortalBlockMixin {
         return null;
     }
 
+    @Unique
     private BlockPos getTopBlock(ServerWorld world, BlockPos pos) {
         var mutable = new BlockPos.Mutable(pos.getX(), 256, pos.getZ());
         while (world.getBlockState(mutable).isAir() && mutable.getY() > world.getBottomY())
