@@ -23,7 +23,7 @@ public class PortalLinkerMod implements ModInitializer {
 				{
 					var info = new DimensionInfo();
 					info.Dimension = world.getRegistryKey().getValue().toString();
-					info.Type = world.getDimensionKey().getValue().toString();
+					info.Type = world.getDimensionEntry().getIdAsString();
 					if (World.OVERWORLD.equals(world.getRegistryKey())) {
 						info.IsEndPortalEnabled = true;
 						info.IsNetherPortalEnabled = true;
