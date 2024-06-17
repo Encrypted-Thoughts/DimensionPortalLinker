@@ -4,13 +4,12 @@
   "package": "net.encryptedthoughts.portallinker.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-  ],
-  "server": [
     "EntityMixin",
     "AbstractFireBlockMixin",
     "EndPortalBlockMixin",
     "EndGatewayBlockEntityMixin"
   ],
+  "server": [],
   "client": [],
   "injectors": {
     "defaultRequire": 1
