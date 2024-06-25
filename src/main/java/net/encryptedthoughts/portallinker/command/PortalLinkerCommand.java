@@ -10,6 +10,7 @@ import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.DimensionArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Text;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
@@ -33,24 +34,31 @@ public class PortalLinkerCommand {
                 })
                 .then(literal("save").executes(ctx -> {
                     PortalLinkerMod.CONFIG.SaveToFile();
+                    var player = ctx.getSource().getPlayer();
+                    if (player != null)
+                        player.sendMessage(Text.literal("Portal linker settings saved successfully"));
                     return Command.SINGLE_SUCCESS;
                 }))
                 .then(argument("dimension", DimensionArgumentType.dimension())
                     .executes(ctx -> {
                         var player = ctx.getSource().getPlayer();
                         var selectedDimension = DimensionArgumentType.getDimensionArgument(ctx, "dimension");
-                        var dimension = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
-                        if (player != null && dimension != null)
-                            player.sendMessage(dimension.getText());
+                        var dimensionInfo = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
+                        if (player != null && dimensionInfo != null)
+                            player.sendMessage(dimensionInfo.getText());
                         return Command.SINGLE_SUCCESS;
                     })
                     .then(literal("netherPortal")
                         .then(literal("false")
                             .executes(ctx -> {
                                 var selectedDimension = DimensionArgumentType.getDimensionArgument(ctx, "dimension");
-                                var dimension = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
-                                if (dimension != null)
-                                    dimension.IsNetherPortalEnabled = false;
+                                var dimensionInfo = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
+                                if (dimensionInfo != null) {
+                                    dimensionInfo.IsNetherPortalEnabled = false;
+                                    var player = ctx.getSource().getPlayer();
+                                    if (player != null)
+                                        player.sendMessage(dimensionInfo.getText());
+                                }
                                 return Command.SINGLE_SUCCESS;
                             })
                         )
@@ -63,6 +71,9 @@ public class PortalLinkerCommand {
                                     if (dimensionInfo != null) {
                                         dimensionInfo.IsNetherPortalEnabled = true;
                                         dimensionInfo.NetherPortalDestinationDimension = destinationDimension.getRegistryKey().getValue().toString();
+                                        var player = ctx.getSource().getPlayer();
+                                        if (player != null)
+                                            player.sendMessage(dimensionInfo.getText());
                                     }
                                     return Command.SINGLE_SUCCESS;
                                 })
@@ -73,9 +84,13 @@ public class PortalLinkerCommand {
                         .then(literal("false")
                             .executes(ctx -> {
                                 var selectedDimension = DimensionArgumentType.getDimensionArgument(ctx, "dimension");
-                                var dimension = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
-                                if (dimension != null)
-                                    dimension.IsEndPortalEnabled = false;
+                                var dimensionInfo = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
+                                if (dimensionInfo != null) {
+                                    dimensionInfo.IsEndPortalEnabled = false;
+                                    var player = ctx.getSource().getPlayer();
+                                    if (player != null)
+                                        player.sendMessage(dimensionInfo.getText());
+                                }
                                 return Command.SINGLE_SUCCESS;
                             })
                         )
@@ -88,6 +103,9 @@ public class PortalLinkerCommand {
                                     if (dimensionInfo != null) {
                                         dimensionInfo.IsEndPortalEnabled = true;
                                         dimensionInfo.EndPortalDestinationDimension = destinationDimension.getRegistryKey().getValue().toString();
+                                        var player = ctx.getSource().getPlayer();
+                                        if (player != null)
+                                            player.sendMessage(dimensionInfo.getText());
                                     }
                                     return Command.SINGLE_SUCCESS;
                                 })
@@ -105,12 +123,15 @@ public class PortalLinkerCommand {
                                             var overrideWorldSpawn = BoolArgumentType.getBool(ctx, "overrideWorldSpawn");
                                             var overridePlayerSpawn = BoolArgumentType.getBool(ctx, "overridePlayerSpawn");
                                             var spawnPosition = BlockPosArgumentType.getBlockPos(ctx, "spawnPosition");
-                                            var dimension = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
-                                            if (dimension != null) {
-                                                dimension.OverrideWorldSpawn = overrideWorldSpawn;
-                                                dimension.OverridePlayerSpawn = overridePlayerSpawn;
-                                                dimension.SpawnDimension = spawnDimension.getRegistryKey().getValue().toString();
-                                                dimension.SpawnPoint = spawnPosition.toShortString();
+                                            var dimensionInfo = WorldHelper.getDimensionInfo(selectedDimension.getRegistryKey().getValue().toString());
+                                            if (dimensionInfo != null) {
+                                                dimensionInfo.OverrideWorldSpawn = overrideWorldSpawn;
+                                                dimensionInfo.OverridePlayerSpawn = overridePlayerSpawn;
+                                                dimensionInfo.SpawnDimension = spawnDimension.getRegistryKey().getValue().toString();
+                                                dimensionInfo.SpawnPoint = spawnPosition.toShortString();
+                                                var player = ctx.getSource().getPlayer();
+                                                if (player != null)
+                                                    player.sendMessage(dimensionInfo.getText());
                                             }
                                             return Command.SINGLE_SUCCESS;
                                         })

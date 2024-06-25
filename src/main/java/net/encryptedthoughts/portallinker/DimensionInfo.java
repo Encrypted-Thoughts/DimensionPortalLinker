@@ -32,15 +32,19 @@ public class DimensionInfo {
     }
 
     public MutableText getText() {
-        return Text.literal("§aDimension: §r").append(Dimension != null ? Dimension : "").append("§r\n")
+        var text = Text.literal("§aDimension: §r").append(Dimension != null ? Dimension : "").append("§r\n")
                 .append("§aType: §r").append(Type != null ? Type : "").append("§r\n")
-                .append("§aIsNetherPortalEnabled: §r").append(String.valueOf(IsNetherPortalEnabled)).append("§r\n")
-                .append("§aNetherPortalDestinationDimension: §r").append(NetherPortalDestinationDimension != null ? NetherPortalDestinationDimension : "").append("§r\n")
-                .append("§aIsEndPortalEnabled: §r").append(String.valueOf(IsEndPortalEnabled)).append("§r\n")
-                .append("§aEndPortalDestinationDimension: §r").append(EndPortalDestinationDimension != null ? EndPortalDestinationDimension : "").append("§r\n")
-                .append("§aOverrideWorldSpawn: §r").append(String.valueOf(OverrideWorldSpawn)).append("§r\n")
-                .append("§aOverridePlayerSpawn: §r").append(String.valueOf(OverridePlayerSpawn)).append("§r\n")
-                .append("§aSpawnDimension: §r").append(SpawnDimension != null ? SpawnDimension : "").append("§r\n")
+                .append("§aIsNetherPortalEnabled: §r").append(String.valueOf(IsNetherPortalEnabled)).append("§r\n");
+        if (IsNetherPortalEnabled)
+            text.append("§aNetherPortalDestinationDimension: §r").append(NetherPortalDestinationDimension != null ? NetherPortalDestinationDimension : "").append("§r\n");
+        text.append("§aIsEndPortalEnabled: §r").append(String.valueOf(IsEndPortalEnabled)).append("§r\n");
+        if (IsEndPortalEnabled)
+            text.append("§aEndPortalDestinationDimension: §r").append(EndPortalDestinationDimension != null ? EndPortalDestinationDimension : "").append("§r\n");
+        text.append("§aOverrideWorldSpawn: §r").append(String.valueOf(OverrideWorldSpawn)).append("§r\n")
+            .append("§aOverridePlayerSpawn: §r").append(String.valueOf(OverridePlayerSpawn)).append("§r");
+        if (OverrideWorldSpawn || OverridePlayerSpawn)
+            text.append("\n§aSpawnDimension: §r").append(SpawnDimension != null ? SpawnDimension : "").append("§r\n")
                 .append("§aSpawnPoint: §r").append(SpawnPoint != null ? SpawnPoint : "§r");
+        return text;
     }
 }
