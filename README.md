@@ -154,8 +154,8 @@ Configure whether world spawn and/or player spawns should be overriden while in 
       "Type": "minecraft:overworld",
       "IsNetherPortalEnabled": false,
       "IsEndPortalEnabled": false,
-      "OverrideWorldSpawn": false,
-      "OverridePlayerSpawn": false,
+      "OverrideWorldSpawn": true,
+      "OverridePlayerSpawn": true,
       "SpawnDimension": "dream:creative_superflat",
       "SpawnPoint": "0, 100, 0"
     }
