@@ -18,6 +18,7 @@ public class PortalLinkerCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess ignoredCommandRegistryAccess, CommandManager.RegistrationEnvironment ignoredRegistrationEnvironment) {
         dispatcher.register(
             literal("portalLinker")
+                .requires(source -> source.hasPermissionLevel(2))
                 .executes(ctx -> {
                     var player = ctx.getSource().getPlayer();
                     if (player != null) {
