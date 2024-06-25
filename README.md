@@ -23,7 +23,7 @@ Each defined dimension has 6 potentials properties:
 
 > Currently the dragon fight doesn't work in custom end dimensions so you'll need to manually place a portal to return back to the overworld as it won't spawn naturally.
 
-## Commands
+## Commands (OP ONLY)
 
 ### `/portalLinker`
 
