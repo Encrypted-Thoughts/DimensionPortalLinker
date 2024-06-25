@@ -10,16 +10,16 @@ This mod adds the ability to enable them to work in custom dimensions by mapping
 Mostly made to be used in concert with [my bingo mod](https://github.com/Encrypted-Thoughts/DidSomeoneSayBingo) so that it can have multiple different types of playable dimensions where the portals still work and link up correctly with nether and end dimensions that I want.
 
 Each defined dimension has 10 potentials properties:
-- Dimension - the actual name of the dimensions.
-- Type - The kind of dimension that it is. Default available types that come with minecraft are minecraft:overworld, minecraft:overworld_caves, minecraft:the_nether, minecraft:the_end
-- IsNetherPortalEnabled - Set whether nether portals should be lightable and function in this dimension.
-- NetherPortalDestinationDimension - If nether portals are enabled set the name of the dimension it should take you to.
-- IsEndPortalEnabled - Set whether end portals should function in this dimension.
-- EndportalDestinationDimension - If end portals are enabled set the name of the dimension it should take you to.
-- OverrideWorldSpawn - Set whether the world spawn should be overridden to a different dimension and spawn point. This applies when the player dies with no spawn point set or when going from the end portal in the end to the overworld. Also applies to entities going through the end portal in the end.
-- OverridePlayerSpawn - Set whether the player's set spawn point should be overridden. This applies when the player has set their spawn at a bed or respawn anchor.
-- SpawnDimension - If world spawn or player spawn has been overridden this sets the new dimension where spawn should be.
-- SpawnPoint - If world spawn or player spawn has been overridden this sets the location in the overridden spawn dimension where spawn should be.
+- `Dimension` - the actual name of the dimensions.
+- `Type` - The kind of dimension that it is. Default available types that come with minecraft are minecraft:overworld, minecraft:overworld_caves, minecraft:the_nether, minecraft:the_end
+- `IsNetherPortalEnabled` - Set whether nether portals should be lightable and function in this dimension.
+- `NetherPortalDestinationDimension` - If nether portals are enabled set the name of the dimension it should take you to.
+- `IsEndPortalEnabled` - Set whether end portals should function in this dimension.
+- `EndportalDestinationDimension` - If end portals are enabled set the name of the dimension it should take you to.
+- `OverrideWorldSpawn` - Set whether the world spawn should be overridden to a different dimension and spawn point. This applies when the player dies with no spawn point set or when going from the end portal in the end to the overworld. Also applies to entities going through the end portal in the end.
+- `OverridePlayerSpawn` - Set whether the player's set spawn point should be overridden. This applies when the player has set their spawn at a bed or respawn anchor.
+- `SpawnDimension` - If world spawn or player spawn has been overridden this sets the new dimension where spawn should be.
+- `SpawnPoint` - If world spawn or player spawn has been overridden this sets the location in the overridden spawn dimension where spawn should be.
 
 > Currently the dragon fight doesn't work in custom end dimensions so you'll need to manually place a portal to return back to the overworld as it won't spawn naturally.
 
