@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractFireBlock.class)
-public class AbstractFireBlockMixin {
+public abstract class AbstractFireBlockMixin {
     @Inject(at = @At("HEAD"), method = "isOverworldOrNether", cancellable = true)
-    private static void isOverworldOrNether(World world, CallbackInfoReturnable<Boolean> cir) {
+    private static void portallinker_isOverworldOrNether(World world, CallbackInfoReturnable<Boolean> cir) {
         var worldName = world.getRegistryKey().getValue().toString();
         var dimensionInfo = WorldHelper.getDimensionInfo(worldName);
         if (dimensionInfo != null)

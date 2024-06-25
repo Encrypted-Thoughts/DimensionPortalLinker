@@ -1,7 +1,9 @@
 package net.encryptedthoughts.portallinker;
 
+import net.encryptedthoughts.portallinker.command.PortalLinkerCommand;
 import net.encryptedthoughts.portallinker.config.PortalLinkerConfig;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +18,8 @@ public class PortalLinkerMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initialized Dimension Portal Linker");
+
+		CommandRegistrationCallback.EVENT.register(PortalLinkerCommand::register);
 
 		if (!CONFIG.ReadFromFile()) {
 			ServerLifecycleEvents.SERVER_STARTED.register((server) -> {

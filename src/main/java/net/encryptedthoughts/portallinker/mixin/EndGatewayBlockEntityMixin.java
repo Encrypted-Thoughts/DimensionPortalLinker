@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(EndGatewayBlockEntity.class)
-public class EndGatewayBlockEntityMixin {
+public abstract class EndGatewayBlockEntityMixin {
     @ModifyExpressionValue(method = "getOrCreateExitPortalPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;getRegistryKey()Lnet/minecraft/registry/RegistryKey;"))
-    private RegistryKey<World> checkIfDimensionIsEnd(RegistryKey<World> original) {
+    private RegistryKey<World> portallinker_checkIfDimensionIsEnd(RegistryKey<World> original) {
         var info = WorldHelper.getDimensionInfo(original.getValue().toString());
         if (info == null || !info.Type.equals("minecraft:the_end")) return original;
         return World.END;

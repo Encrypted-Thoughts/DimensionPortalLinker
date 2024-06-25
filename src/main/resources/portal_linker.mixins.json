@@ -7,7 +7,8 @@
     "AbstractFireBlockMixin",
     "EndGatewayBlockEntityMixin",
     "EndPortalBlockMixin",
-    "NetherPortalBlockMixin"
+    "NetherPortalBlockMixin",
+    "ServerPlayerEntityMixin"
   ],
   "server": [],
   "client": [],

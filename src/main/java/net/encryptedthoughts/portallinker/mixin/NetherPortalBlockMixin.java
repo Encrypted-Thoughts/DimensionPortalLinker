@@ -16,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NetherPortalBlock.class)
-public class NetherPortalBlockMixin {
+public abstract class NetherPortalBlockMixin {
     @ModifyVariable(method = "createTeleportTarget", at = @At(value = "STORE"), ordinal = 0)
-    public RegistryKey<World> modifyRegistryKey(RegistryKey<World> original, @Local(ordinal = 0, argsOnly = true) ServerWorld world)
+    public RegistryKey<World> portallinker_modifyRegistryKey(RegistryKey<World> original, @Local(ordinal = 0, argsOnly = true) ServerWorld world)
     {
         var info = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
         if (info == null) return original;
@@ -31,7 +31,7 @@ public class NetherPortalBlockMixin {
     }
 
     @ModifyVariable(method = "createTeleportTarget", at = @At(value = "STORE"), ordinal = 1)
-    public ServerWorld modifyServerWorld(ServerWorld original, @Local(ordinal = 0, argsOnly = true) ServerWorld world)
+    public ServerWorld portallinker_modifyServerWorld(ServerWorld original, @Local(ordinal = 0, argsOnly = true) ServerWorld world)
     {
         var info = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
         if (info == null) return original;
@@ -41,7 +41,7 @@ public class NetherPortalBlockMixin {
     }
 
     @Inject(method = "onEntityCollision", at = @At(value = "HEAD"), cancellable = true)
-    public void disablePortal(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci)
+    public void portallinker_disablePortal(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci)
     {
         var info = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
         if (info != null && !info.IsNetherPortalEnabled)
