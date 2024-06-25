@@ -29,6 +29,10 @@ Each defined dimension has 6 potentials properties:
 
 Display the current settings for all dimensions.
 
+### `/portalLinker save`
+
+Save the current defined settings to the config so they'll apply on a server restart.
+
 ### `/portalLinker [dimension]`
 
 - dimension: `dimension` specify the dimension to define portal linking properties for.
