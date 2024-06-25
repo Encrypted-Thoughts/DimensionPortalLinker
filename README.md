@@ -9,7 +9,7 @@ This mod adds the ability to enable them to work in custom dimensions by mapping
 
 Mostly made to be used in concert with [my bingo mod](https://github.com/Encrypted-Thoughts/DidSomeoneSayBingo) so that it can have multiple different types of playable dimensions where the portals still work and link up correctly with nether and end dimensions that I want.
 
-Each defined dimension has 6 potentials properties:
+Each defined dimension has 10 potentials properties:
 - Dimension - the actual name of the dimensions.
 - Type - The kind of dimension that it is. Default available types that come with minecraft are minecraft:overworld, minecraft:overworld_caves, minecraft:the_nether, minecraft:the_end
 - IsNetherPortalEnabled - Set whether nether portals should be lightable and function in this dimension.
