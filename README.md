@@ -58,8 +58,8 @@ Configure whether end portals are enabled and where the portal takes you for the
 ### `/portalLinker [dimension] spawn [overrideWorldSpawn] [overridePlayerSpawn] [spawnDimension] [spawnPoint]`
 
 - dimension: `dimension` specify the dimension to define portal linking properties for.
-- overrideWorldSpawn: `bool` set whether the world spawn location should be overriden while in the selected dimension.
-- overridePlayerSpawn: `bool` set whether the player spawn location should be overriden while in the selected dimension.
+- overrideWorldSpawn: `bool` set whether the world spawn location should be overridden while in the selected dimension.
+- overridePlayerSpawn: `bool` set whether the player spawn location should be overridden while in the selected dimension.
 - spawnDimension: `dimension` specify the dimension that the spawn location should be while in the selected dimension.
 - spawnPoint: `coordinates` specify the coordinates that spawn should be at in the defined spawn dimension.
 
