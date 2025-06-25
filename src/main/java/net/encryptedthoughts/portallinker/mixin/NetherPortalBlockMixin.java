@@ -5,6 +5,7 @@ import net.encryptedthoughts.portallinker.util.WorldHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -41,7 +42,7 @@ public abstract class NetherPortalBlockMixin {
     }
 
     @Inject(method = "onEntityCollision", at = @At(value = "HEAD"), cancellable = true)
-    public void portallinker_disablePortal(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci)
+    public void portallinker_disablePortal(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, CallbackInfo ci)
     {
         var info = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
         if (info != null && !info.IsNetherPortalEnabled)
