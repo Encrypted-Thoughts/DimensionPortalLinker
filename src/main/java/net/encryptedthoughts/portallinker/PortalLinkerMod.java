@@ -56,9 +56,9 @@ public class PortalLinkerMod implements ModInitializer {
 	}
 
 	private static boolean setAllDimensions(PlayerEntity playerEntity) {
-		var server = playerEntity.getServer();
+		var server = playerEntity.getEntityWorld().getServer();
 		if (server != null) {
-			for (var world : playerEntity.getServer().getWorlds()) {
+			for (var world : playerEntity.getEntityWorld().getServer().getWorlds()) {
 				world.setTimeOfDay(0);
 			}
 		}

@@ -67,7 +67,7 @@ public abstract class EndPortalBlockMixin {
     }
 
     @Inject(method = "onEntityCollision", at = @At(value = "HEAD"), cancellable = true)
-    public void portallinker_disablePortal(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, CallbackInfo ci)
+    public void portallinker_disablePortal(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl, CallbackInfo ci)
     {
         var info = WorldHelper.getDimensionInfo(world.getRegistryKey().getValue().toString());
         if (info != null && !info.IsEndPortalEnabled)
