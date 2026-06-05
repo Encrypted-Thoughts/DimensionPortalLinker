@@ -1,8 +1,8 @@
 package net.encryptedthoughts.portallinker;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 public class DimensionInfo {
     public String Dimension;
@@ -31,8 +31,8 @@ public class DimensionInfo {
         }
     }
 
-    public MutableText getText() {
-        var text = Text.literal("§aDimension: §r").append(Dimension != null ? Dimension : "").append("§r\n")
+    public MutableComponent getText() {
+        var text = Component.literal("§aDimension: §r").append(Dimension != null ? Dimension : "").append("§r\n")
                 .append("§aType: §r").append(Type != null ? Type : "").append("§r\n")
                 .append("§aIsNetherPortalEnabled: §r").append(String.valueOf(IsNetherPortalEnabled)).append("§r\n");
         if (IsNetherPortalEnabled)

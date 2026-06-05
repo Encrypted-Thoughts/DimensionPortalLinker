@@ -2,23 +2,23 @@ package net.encryptedthoughts.portallinker.util;
 
 import net.encryptedthoughts.portallinker.DimensionInfo;
 import net.encryptedthoughts.portallinker.PortalLinkerMod;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 
 public class WorldHelper {
-    public static ServerWorld getWorldByName(MinecraftServer server, String worldName){
-        for (var key : server.getWorldRegistryKeys()) {
-            if (key.getValue().toString().equals(worldName))
-                return server.getWorld(key);
+    public static ServerLevel getWorldByName(MinecraftServer server, String worldName){
+        for (var key : server.levelKeys()) {
+            if (key.identifier().toString().equals(worldName))
+                return server.getLevel(key);
         }
         return null;
     }
 
-    public static RegistryKey<World> getWorldRegistryKeyByName(MinecraftServer server, String worldName){
-        for (var key : server.getWorldRegistryKeys()) {
-            if (key.getValue().toString().equals(worldName))
+    public static ResourceKey<Level> getWorldRegistryKeyByName(MinecraftServer server, String worldName){
+        for (var key : server.levelKeys()) {
+            if (key.identifier().toString().equals(worldName))
                 return key;
         }
         return null;

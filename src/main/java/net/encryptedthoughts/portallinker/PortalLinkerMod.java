@@ -6,8 +6,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,24 +23,24 @@ public class PortalLinkerMod implements ModInitializer {
 
 		if (!CONFIG.ReadFromFile()) {
 			ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
-				for (var world : server.getWorlds())
+				for (var world : server.getAllLevels())
 				{
 					var info = new DimensionInfo();
-					info.Dimension = world.getRegistryKey().getValue().toString();
-					info.Type = world.getDimensionEntry().getIdAsString();
-					if (World.OVERWORLD.equals(world.getRegistryKey())) {
+					info.Dimension = world.dimension().identifier().toString();
+					info.Type = world.dimensionTypeRegistration().getRegisteredName();
+					if (Level.OVERWORLD.equals(world.dimension())) {
 						info.IsEndPortalEnabled = true;
 						info.IsNetherPortalEnabled = true;
-						info.NetherPortalDestinationDimension = World.NETHER.getValue().toString();
-						info.EndPortalDestinationDimension = World.END.getValue().toString();
-					} else if (World.NETHER.equals(world.getRegistryKey())) {
+						info.NetherPortalDestinationDimension = Level.NETHER.identifier().toString();
+						info.EndPortalDestinationDimension = Level.END.identifier().toString();
+					} else if (Level.NETHER.equals(world.dimension())) {
 						info.IsEndPortalEnabled = false;
 						info.IsNetherPortalEnabled = true;
-						info.NetherPortalDestinationDimension = World.OVERWORLD.getValue().toString();
-					} else if (World.END.equals(world.getRegistryKey())) {
+						info.NetherPortalDestinationDimension = Level.OVERWORLD.identifier().toString();
+					} else if (Level.END.equals(world.dimension())) {
 						info.IsEndPortalEnabled = true;
 						info.IsNetherPortalEnabled = false;
-						info.EndPortalDestinationDimension = World.OVERWORLD.getValue().toString();
+						info.EndPortalDestinationDimension = Level.OVERWORLD.identifier().toString();
 					}
 					else {
 						info.IsEndPortalEnabled = false;
@@ -55,11 +55,11 @@ public class PortalLinkerMod implements ModInitializer {
 		EntitySleepEvents.ALLOW_RESETTING_TIME.register(PortalLinkerMod::setAllDimensions);
 	}
 
-	private static boolean setAllDimensions(PlayerEntity playerEntity) {
-		var server = playerEntity.getEntityWorld().getServer();
+	private static boolean setAllDimensions(Player playerEntity) {
+		var server = playerEntity.level().getServer();
 		if (server != null) {
-			for (var world : playerEntity.getEntityWorld().getServer().getWorlds()) {
-				world.setTimeOfDay(0);
+			for (var world : playerEntity.level().getServer().getAllLevels()) {
+				world.setDayTime(0);
 			}
 		}
 		return true;
