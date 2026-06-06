@@ -59,7 +59,8 @@ public class PortalLinkerMod implements ModInitializer {
 		var server = playerEntity.level().getServer();
 		if (server != null) {
 			for (var world : playerEntity.level().getServer().getAllLevels()) {
-				world.setDayTime(0);
+				var clock = world.dimensionTypeRegistration().value().defaultClock();
+				clock.ifPresent(worldClockHolder -> world.clockManager().setTotalTicks(worldClockHolder, 0));
 			}
 		}
 		return true;
