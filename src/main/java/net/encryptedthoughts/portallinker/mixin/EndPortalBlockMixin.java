@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EndPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.portal.TeleportTransition;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EndPortalBlock.class)
 public abstract class EndPortalBlockMixin {
-    @ModifyVariable(method = "getPortalDestination", at = @At(value = "STORE"), ordinal = 0)
+    @ModifyVariable(method = "getPortalDestination", at = @At(value = "STORE"), name = "currentDimension")
     public ResourceKey<Level> portallinker_modifyRegistryKey(ResourceKey<Level> original, @Local(ordinal = 0, argsOnly = true) ServerLevel world)
     {
         var info = WorldHelper.getDimensionInfo(world.dimension().identifier().toString());
@@ -32,7 +33,7 @@ public abstract class EndPortalBlockMixin {
         };
     }
 
-    @ModifyVariable(method = "getPortalDestination", at = @At(value = "STORE"), ordinal = 1)
+    @ModifyVariable(method = "getPortalDestination", at = @At(value = "STORE"), name = "newLevel")
     public ServerLevel portallinker_modifyServerWorld(ServerLevel original, @Local(ordinal = 0, argsOnly = true) ServerLevel world)
     {
         var info = WorldHelper.getDimensionInfo(world.dimension().identifier().toString());
@@ -51,7 +52,7 @@ public abstract class EndPortalBlockMixin {
         var redirectedWorld = WorldHelper.getWorldByName(world.getServer(), info.SpawnDimension);
         var spawnPoint = info.getSpawnPoint();
         if (redirectedWorld == null || spawnPoint == null) return;
-        cir.setReturnValue(new TeleportTransition(redirectedWorld, spawnPoint.getBottomCenter(), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET)));
+        cir.setReturnValue(new TeleportTransition(redirectedWorld, Vec3.atBottomCenterOf(spawnPoint), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET)));
     }
 
     @Inject(method = "getPortalDestination", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;findRespawnPositionAndUseSpawnBlock(ZLnet/minecraft/world/level/portal/TeleportTransition$PostTeleportTransition;)Lnet/minecraft/world/level/portal/TeleportTransition;"), cancellable = true)
@@ -63,7 +64,7 @@ public abstract class EndPortalBlockMixin {
         var redirectedWorld = WorldHelper.getWorldByName(world.getServer(), info.SpawnDimension);
         var spawnPoint = info.getSpawnPoint();
         if (redirectedWorld == null || spawnPoint == null) return;
-        cir.setReturnValue(new TeleportTransition(redirectedWorld, spawnPoint.getBottomCenter(), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET)));
+        cir.setReturnValue(new TeleportTransition(redirectedWorld, Vec3.atBottomCenterOf(spawnPoint), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET)));
     }
 
     @Inject(method = "entityInside", at = @At(value = "HEAD"), cancellable = true)

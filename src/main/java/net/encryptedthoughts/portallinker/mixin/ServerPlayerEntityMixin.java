@@ -55,7 +55,7 @@ public abstract class ServerPlayerEntityMixin extends Entity {
             var spawnPoint = info.getSpawnPoint();
             var world = WorldHelper.getWorldByName(server, info.SpawnDimension);
             if (spawnPoint != null && world != null)
-                cir.setReturnValue(new TeleportTransition(world, spawnPoint.getBottomCenter(), Vec3.ZERO, 0.0F, 0.0F, postDimensionTransition));
+                cir.setReturnValue(new TeleportTransition(world, Vec3.atBottomCenterOf(spawnPoint), Vec3.ZERO, 0.0F, 0.0F, postDimensionTransition));
         }
     }
 }
